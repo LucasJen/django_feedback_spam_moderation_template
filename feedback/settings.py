@@ -72,13 +72,33 @@ WSGI_APPLICATION = 'feedback.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Instance connection: student-feedback-filter-492512:us-central1:feedback
+
+import os
+# Checks if running at GCP
+RUNNING_AT_GCP = 'GAE_INSTANCE' in os.environ # os.environ is a dicitonary of set env variables
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': '/cloudsql/student-feedback-filter-492512:us-central1:feedback',
+        'PORT': '3306',
+        'NAME': 'feedback',
+        'USER': 'feedback_user',
+        'PASSWORD': os.getenv('FEEDBACK_DB_PASSWORD') # set on your computer at app engine
     }
 }
 
+if not RUNNING_AT_GCP: # on a local computer, connect to the Cloud SQL via the cloud SQL proxy tool
+    DATABASES['default']['host'] = '127.0.0.1'
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
