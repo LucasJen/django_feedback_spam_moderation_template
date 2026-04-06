@@ -1,9 +1,0 @@
-runtime: python313
-entrypoint: gunicorn -b :$PORT feedback.wsgi
-env_variables:
-  FEEDBACK_DB_PASSWORD: The CloudSQL password you set for your database user 
-  MODERATION_TASK_SECRET: make this up
-  GEMINI_API_KEY: your Gemini API key
-  GOOGLE_CLOUD_PROJECT: your project name here 
-
-
