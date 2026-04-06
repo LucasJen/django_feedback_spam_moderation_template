@@ -5,10 +5,13 @@ from google.genai.types import GenerateContentConfig
 import logging
 logger = logging.getLogger(__name__)
 
+# creates the llm instance
 gemini_client = genai.Client()
 
 def classify_feedback(feedback_text):
-
+    """
+    this function defines the llm parameters as well as gets and returns the llm response
+    """
     logger.debug(f'Gemini is classifying this text {feedback_text}')
 
     response = gemini_client.models.generate_content(

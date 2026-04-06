@@ -99,7 +99,13 @@ DATABASES = {
 
 if not RUNNING_AT_GCP: # on a local computer, connect to the Cloud SQL via the cloud SQL proxy tool
     DATABASES['default']['host'] = '127.0.0.1'
-    
+
+GCP_PROJECT = 'student-feedback-filter-492512'
+GCP_REGION = 'us-central1'
+BASE_URL = 'https://student-feedback-filter-492512.uc.r.appspot.com/'
+MODERATION_TASK_SECRET = os.getenv('MODERATION_TASK_SECRET')
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
