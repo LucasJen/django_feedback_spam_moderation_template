@@ -60,14 +60,14 @@ def moderate_feedback(request):
     try: 
 
         if request.method != 'POST':
-            return HttpResponseNotAllowed()
+            return HttpResponseNotAllowed(['POST'])
 
         secret = request.headers.get('X-Moderation-Task-Secret')
     
         # check moderation task secret, make sure it matches
 
         if secret != settings.MODERATION_TASK_SECRET:
-            return HttpResponseForbidden
+            return HttpResponseForbidden()
 
         # read the feedback id from the request - it will be the payload sent when the task was created
 
@@ -83,9 +83,9 @@ def moderate_feedback(request):
         classification = classify_feedback(feedback.text)
         
         if classification == 'genuine':
-            feedback.approved = True
+            feedback.status = Feedback.APPROVED
         else:
-            feedback.approved = False
+            feedback.status = Feedback.BLOCKED
     
         # update the database
         feedback.save()
